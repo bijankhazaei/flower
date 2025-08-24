@@ -3,6 +3,7 @@ from app.Containers.Documentation.UI.API.Controllers.DocumentationController imp
 from app.Containers.User.UI.API.Controllers.UserController import router as user_router
 from app.Ship.Engine.database import engine
 from app.Ship.Parents.model import Base
+from app.Ship.Engine.seeder import run_seeders
 
 def create_app() -> FastAPI:
     app = FastAPI(
@@ -13,6 +14,9 @@ def create_app() -> FastAPI:
     
     # Create database tables
     Base.metadata.create_all(bind=engine)
+    
+    # Run seeders
+    run_seeders()
     
     # Include routes
     app.include_router(docs_router)

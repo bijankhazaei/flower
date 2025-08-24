@@ -74,3 +74,4 @@ dmypy.json
 # Temporary files
 *.tmp
 *.temp
+frontend/node_modules

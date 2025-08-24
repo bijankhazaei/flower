@@ -1,7 +1,6 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 from typing import Any
 
 class Action(ABC):
-    @abstractmethod
-    async def run(self, *args, **kwargs) -> Any:
+    def run(self, *args, **kwargs) -> Any:
         pass

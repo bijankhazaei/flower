@@ -1,10 +1,11 @@
 from typing import List, Optional
 from sqlalchemy.orm import Session
 from app.Containers.User.Models.User import User
+from app.Ship.Engine.database import get_db
 
 class UserRepository:
-    def __init__(self, db: Session):
-        self.db = db
+    def __init__(self, db: Session = None):
+        self.db = db or next(get_db())
     
     def get_all(self) -> List[User]:
         return self.db.query(User).all()
@@ -14,6 +15,9 @@ class UserRepository:
     
     def get_by_email(self, email: str) -> Optional[User]:
         return self.db.query(User).filter(User.email == email).first()
+    
+    def find_by_email(self, email: str) -> Optional[User]:
+        return self.get_by_email(email)
     
     def create(self, user_data: dict) -> User:
         user = User(**user_data)

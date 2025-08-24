@@ -4,8 +4,10 @@ from typing import List
 from app.Ship.Engine.database import get_db
 from app.Containers.User.Data.Repositories.UserRepository import UserRepository
 from app.Containers.User.Tasks.CreateUserTask import CreateUserTask
+from app.Containers.User.Actions.LoginAction import LoginAction
 from app.Containers.User.UI.API.Requests.CreateUserRequest import CreateUserRequest
 from app.Containers.User.UI.API.Requests.UpdateUserRequest import UpdateUserRequest
+from app.Containers.User.UI.API.Requests.LoginRequest import LoginRequest
 from app.Containers.User.UI.API.Transformers.UserTransformer import UserTransformer
 
 router = APIRouter(prefix="/users", tags=["users"])
@@ -54,3 +56,8 @@ async def delete_user(user_id: int, user_repo: UserRepository = Depends(get_user
     if not user_repo.delete(user_id):
         raise HTTPException(status_code=404, detail="User not found")
     return {"message": "User deleted successfully"}
+
+@router.post("/login")
+async def login(request: LoginRequest):
+    action = LoginAction()
+    return action.run(request.email, request.password)
