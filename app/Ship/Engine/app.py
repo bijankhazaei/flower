@@ -1,26 +1,26 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from app.Containers.Flow.UI.API.Routes.flow_routes import router as flow_router
-from app.Containers.Node.UI.API.Routes.node_routes import router as node_router
-from app.Containers.Execution.UI.API.Routes.execution_routes import router as execution_router
+from app.Containers.Documentation.UI.API.Controllers.DocumentationController import router as docs_router
+from app.Containers.User.UI.API.Controllers.UserController import router as user_router
+from app.Ship.Engine.database import engine
+from app.Ship.Parents.model import Base
 
 def create_app() -> FastAPI:
     app = FastAPI(
         title="Flower - Visual Flow Builder",
-        description="A scalable visual flow builder with Porto architecture",
+        description="A next-generation visual flow builder with Porto architecture",
         version="1.0.0"
     )
     
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=["*"],
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+    # Create database tables
+    Base.metadata.create_all(bind=engine)
     
-    app.include_router(flow_router, prefix="/api/v1/flows", tags=["flows"])
-    app.include_router(node_router, prefix="/api/v1/nodes", tags=["nodes"])
-    app.include_router(execution_router, prefix="/api/v1/executions", tags=["executions"])
+    # Include routes
+    app.include_router(docs_router)
+    app.include_router(user_router, prefix="/api")
+    
+    # Health check endpoint
+    @app.get("/health")
+    async def health_check():
+        return {"status": "healthy", "service": "flower"}
     
     return app
