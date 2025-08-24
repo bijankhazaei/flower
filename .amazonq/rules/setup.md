@@ -87,8 +87,18 @@ The implementation follows Porto architecture principles:
 - ✅ Role-based access control (USER, ADMIN, SUPER_ADMIN)
 - ✅ Automatic database seeding
 - ✅ Real-time login with error handling
+- ✅ Protected routes - all frontend routes require authentication
+- ✅ Authentication context and logout functionality
 - ✅ Health monitoring
 - ✅ API documentation
 - ✅ Containerized deployment
+
+## 🔒 Authentication Flow
+
+1. All routes except `/login` are protected
+2. Unauthenticated users are redirected to login page
+3. JWT tokens are stored in localStorage
+4. User can logout from any page using the logout button
+5. Authentication state is managed globally via React Context
 
 The application is now ready for development and testing!

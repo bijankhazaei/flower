@@ -1,9 +1,15 @@
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { HomeIcon, FolderIcon, UsersIcon, Cog6ToothIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, FolderIcon, UsersIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
+import { useAuth } from '../contexts/AuthContext';
 
 const Layout: React.FC = () => {
   const location = useLocation();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+  };
 
   const navigation = [
     { name: 'Dashboard', href: '/', icon: HomeIcon },
@@ -48,9 +54,16 @@ const Layout: React.FC = () => {
                 <h2 className="text-lg font-semibold text-gray-900">
                   Visual Flow Builder
                 </h2>
-                <button className="p-2 text-gray-400 hover:text-gray-600">
-                  <Cog6ToothIcon className="w-5 h-5" />
-                </button>
+                <div className="flex items-center space-x-4">
+                  <span className="text-sm text-gray-600">Welcome, {user?.name}</span>
+                  <button 
+                    onClick={handleLogout}
+                    className="p-2 text-gray-400 hover:text-gray-600"
+                    title="Logout"
+                  >
+                    <ArrowRightOnRectangleIcon className="w-5 h-5" />
+                  </button>
+                </div>
               </div>
             </div>
           </header>
