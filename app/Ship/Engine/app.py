@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from app.Containers.Documentation.UI.API.Controllers.DocumentationController import router as docs_router
 from app.Containers.User.UI.API.Controllers.UserController import router as user_router
 from app.Containers.Flow.UI.API.Routes.compiler_routes import router as compiler_router
+from app.Containers.Node.UI.API.Routes.node_routes import router as node_router
+from app.Containers.Execution.UI.API.Routes.execution_routes import router as execution_router
 from app.Ship.Engine.database import engine
 from app.Ship.Parents.model import Base
 from app.Ship.Engine.seeder import run_seeders
@@ -27,6 +29,8 @@ def create_app() -> FastAPI:
     app.include_router(docs_router)
     app.include_router(user_router, prefix="/api")
     app.include_router(compiler_router, prefix="/api")
+    app.include_router(node_router, prefix="/api")
+    app.include_router(execution_router, prefix="/api")
     
     # Health check endpoint
     @app.get("/health")
