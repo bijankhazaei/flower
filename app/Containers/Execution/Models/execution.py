@@ -1,23 +1,33 @@
-from sqlalchemy import Column, String, Integer, ForeignKey, JSON, Enum, Text
+from sqlalchemy import Column, String, Integer, ForeignKey, JSON, Enum, Text, DateTime
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
-from app.Ship.Parents.model import BaseModel
+from sqlalchemy.sql import func
+from app.Ship.Parents.Models.Model import BaseModel
 import enum
 
 class ExecutionStatus(enum.Enum):
-    PENDING = "pending"
-    RUNNING = "running"
-    COMPLETED = "completed"
-    FAILED = "failed"
-    CANCELLED = "cancelled"
+    PENDING = "PENDING"
+    RUNNING = "RUNNING"
+    COMPLETED = "COMPLETED"
+    FAILED = "FAILED"
+    CANCELLED = "CANCELLED"
+    TIMEOUT = "TIMEOUT"
 
 class Execution(BaseModel):
     __tablename__ = "executions"
     
-    flow_id = Column(Integer, ForeignKey("flows.id"), nullable=False)
+    flow_id = Column(UUID(as_uuid=True), ForeignKey("flows.id"), nullable=False)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"))
     status = Column(Enum(ExecutionStatus), default=ExecutionStatus.PENDING)
-    input_data = Column(JSON)
-    output_data = Column(JSON)
+    inputs = Column(JSON)
+    outputs = Column(JSON)
     error_message = Column(Text)
-    execution_time = Column(Integer)  # milliseconds
+    start_time = Column(DateTime(timezone=True))
+    end_time = Column(DateTime(timezone=True))
+    execution_time_ms = Column(Integer)
+    node_results = Column(JSON, default={})
     
+    # Relationships
     flow = relationship("Flow", back_populates="executions")
+    user = relationship("User", back_populates="executions")
+    logs = relationship("ExecutionLog", back_populates="execution")

@@ -1,6 +1,6 @@
 from typing import List, Optional
 from sqlalchemy.orm import Session
-from app.Containers.User.Models.User import User
+from app.Containers.User.Models.User import User, UserStatus, UserRole
 from app.Ship.Engine.database import get_db
 
 class UserRepository:
@@ -42,3 +42,19 @@ class UserRepository:
             self.db.commit()
             return True
         return False
+    
+    def update_status(self, user_id: int, status: str) -> Optional[User]:
+        user = self.get_by_id(user_id)
+        if user:
+            user.status = UserStatus(status)
+            self.db.commit()
+            self.db.refresh(user)
+        return user
+    
+    def update_role(self, user_id: int, role: UserRole) -> Optional[User]:
+        user = self.get_by_id(user_id)
+        if user:
+            user.role = role
+            self.db.commit()
+            self.db.refresh(user)
+        return user

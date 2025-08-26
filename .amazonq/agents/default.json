@@ -28,7 +28,8 @@
     "listDirectory",
     "fileSearch",
     "@flower-task-manager/create_task",
-    "@flower-task-manager/list_tasks"
+    "@flower-task-manager/list_tasks",
+    "@flower-task-manager/update_task"
   ],
   "toolsSettings": {
     "execute_bash": {
