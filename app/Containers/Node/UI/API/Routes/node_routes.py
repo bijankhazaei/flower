@@ -1,6 +1,9 @@
 from fastapi import APIRouter, Depends, Path
 from app.Containers.Node.UI.API.Controllers.NodeController import NodeController
 from app.Containers.Node.UI.API.Requests.NodeConfigRequest import NodeConfigRequest
+from app.Containers.Node.UI.API.Requests.CustomNodeRequest import UploadCustomNodeRequest
+from app.Containers.Node.Actions.UploadCustomNodeAction import UploadCustomNodeAction
+from app.Containers.Node.Tasks.UploadCustomNodeTask import UploadCustomNodeTask
 
 router = APIRouter(prefix="/nodes", tags=["Node Management"])
 
@@ -29,3 +32,9 @@ async def validate_node_config(
 ):
     """Validate node configuration"""
     return await controller.validate_node_config(request.node_type, request.config)
+
+@router.post("/upload")
+async def upload_custom_node(request: UploadCustomNodeRequest):
+    """Upload a custom node"""
+    action = UploadCustomNodeAction(UploadCustomNodeTask())
+    return await action.run(request.node_code, request.node_name)

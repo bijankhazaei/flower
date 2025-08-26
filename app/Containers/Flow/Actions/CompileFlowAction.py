@@ -1,5 +1,5 @@
 from typing import Dict, Any
-from app.Ship.Parents.action import Action
+from app.Ship.Parents.Actions.Action import Action
 from app.Containers.Flow.Engine.FlowCompiler import PythonFlowCompiler, CompilationResult
 from app.Containers.Flow.Tasks.ValidateFlowTask import ValidateFlowTask
 

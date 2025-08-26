@@ -3,6 +3,7 @@ from typing import Dict, Any, List, Optional
 import ast
 import json
 from dataclasses import dataclass
+from app.Containers.Flow.Engine.CompilationCache import CompilationCache
 
 
 @dataclass
@@ -16,9 +17,10 @@ class CompilationResult:
 class FlowCompiler(ABC):
     """Base class for converting visual flows to executable code"""
     
-    def __init__(self):
+    def __init__(self, use_cache: bool = True):
         self.errors: List[str] = []
         self.warnings: List[str] = []
+        self.cache = CompilationCache() if use_cache else None
     
     def compile(self, flow_definition: Dict[str, Any]) -> CompilationResult:
         """Main compilation entry point"""
@@ -26,6 +28,16 @@ class FlowCompiler(ABC):
         self.warnings.clear()
         
         try:
+            # Check cache first
+            if self.cache:
+                cached_code = self.cache.get(flow_definition)
+                if cached_code:
+                    return CompilationResult(
+                        success=True,
+                        code=cached_code,
+                        warnings=["Used cached compilation result"]
+                    )
+            
             # Validate flow structure
             if not self._validate_flow(flow_definition):
                 return CompilationResult(success=False, errors=self.errors)
@@ -35,6 +47,10 @@ class FlowCompiler(ABC):
             
             # Generate code
             code = self._generate_code(flow_ast)
+            
+            # Cache result
+            if self.cache:
+                self.cache.set(flow_definition, code)
             
             return CompilationResult(
                 success=True,

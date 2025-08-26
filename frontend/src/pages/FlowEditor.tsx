@@ -10,7 +10,7 @@ import ReactFlow, {
   Controls,
   MiniMap,
   Background,
-} from 'react-flow-renderer';
+} from 'reactflow';
 import { PlayIcon, StopIcon, DocumentArrowDownIcon } from '@heroicons/react/24/outline';
 
 const initialNodes: Node[] = [

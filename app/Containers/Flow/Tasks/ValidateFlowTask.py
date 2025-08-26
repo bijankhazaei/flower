@@ -1,5 +1,5 @@
 from typing import Dict, Any, List
-from app.Ship.Parents.task import Task
+from app.Ship.Parents.Tasks.Task import Task
 
 
 class ValidateFlowTask(Task):

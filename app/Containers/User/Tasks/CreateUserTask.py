@@ -1,4 +1,4 @@
-from app.Ship.Parents.task import Task
+from app.Ship.Parents.Tasks.Task import Task
 from app.Containers.User.Models.User import User
 from app.Containers.User.Data.Repositories.UserRepository import UserRepository
 

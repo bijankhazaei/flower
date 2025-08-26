@@ -1,4 +1,4 @@
-from app.Ship.Parents.action import Action
+from app.Ship.Parents.Actions.Action import Action
 from app.Containers.Flow.Tasks.create_flow_task import CreateFlowTask
 from app.Containers.Flow.UI.API.Requests.flow_request import CreateFlowRequest
 from app.Containers.Flow.Models.flow import Flow

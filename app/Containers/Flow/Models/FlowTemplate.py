@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Text, DateTime, Boolean
 from sqlalchemy.sql import func
-from app.Ship.Parents.Models.Model import Model
+from app.Ship.Parents.Models import Model
 
 class FlowTemplate(Model):
     __tablename__ = "flow_templates"

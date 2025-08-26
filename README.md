@@ -40,9 +40,9 @@ uvicorn main:app --reload
 ```
 
 Access the application:
-- **Frontend**: http://localhost:3000
-- **API Documentation**: http://localhost:8000/docs
-- **Backend**: http://localhost:8000
+- **Frontend**: http://localhost:3022
+- **API Documentation**: http://localhost:8022/docs
+- **Backend**: http://localhost:8022
 
 ### Default Login
 - **Email**: admin@flower.com

@@ -1,4 +1,4 @@
-from app.Ship.Parents.action import Action
+from app.Ship.Parents.Actions.Action import Action
 from app.Containers.User.Tasks.AuthenticateUserTask import AuthenticateUserTask
 from app.Containers.User.Models.User import User
 from fastapi import HTTPException, status
