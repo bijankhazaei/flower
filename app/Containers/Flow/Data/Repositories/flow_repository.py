@@ -22,19 +22,15 @@ class FlowRepository:
         result = await self.session.execute(select(Flow))
         return result.scalars().all()
     
-    async def update(self, flow_id: int, data: Dict[str, Any]) -> Optional[Flow]:
-        flow = await self.find_by_id(flow_id)
-        if flow:
-            for key, value in data.items():
-                setattr(flow, key, value)
-            await self.session.commit()
-            await self.session.refresh(flow)
+    async def find_by_user_id(self, user_id: int) -> List[Flow]:
+        result = await self.session.execute(select(Flow).where(Flow.user_id == user_id))
+        return result.scalars().all()
+    
+    async def update(self, flow: Flow) -> Flow:
+        await self.session.commit()
+        await self.session.refresh(flow)
         return flow
     
-    async def delete(self, flow_id: int) -> bool:
-        flow = await self.find_by_id(flow_id)
-        if flow:
-            await self.session.delete(flow)
-            await self.session.commit()
-            return True
-        return False
+    async def delete(self, flow: Flow) -> None:
+        await self.session.delete(flow)
+        await self.session.commit()
