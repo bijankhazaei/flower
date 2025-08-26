@@ -22,11 +22,11 @@ class JSONProcessorNode(BaseNode):
         return [NodePort(name="result", data_type=DataType.TEXT)]
     
     @property
-    def parameters(self) -> List[NodeParameter]:
+    def parameters_schema(self) -> List[NodeParameter]:
         return [
             NodeParameter(name="operation", data_type=DataType.TEXT, required=True, 
-                         default="parse", description="parse, stringify, extract_key"),
-            NodeParameter(name="key_path", data_type=DataType.TEXT, required=False, default="")
+                         default_value="parse", description="parse, stringify, extract_key"),
+            NodeParameter(name="key_path", data_type=DataType.TEXT, required=False, default_value="")
         ]
     
     async def _execute_logic(self, context: ExecutionContext) -> Dict[str, Any]:
@@ -70,12 +70,12 @@ class TextSplitterNode(BaseNode):
         return [NodePort(name="chunks", data_type=DataType.LIST)]
     
     @property
-    def parameters(self) -> List[NodeParameter]:
+    def parameters_schema(self) -> List[NodeParameter]:
         return [
             NodeParameter(name="split_type", data_type=DataType.TEXT, required=True, 
-                         default="lines", description="lines, words, chars, delimiter"),
-            NodeParameter(name="delimiter", data_type=DataType.TEXT, required=False, default=","),
-            NodeParameter(name="chunk_size", data_type=DataType.INTEGER, required=False, default=1000)
+                         default_value="lines", description="lines, words, chars, delimiter"),
+            NodeParameter(name="delimiter", data_type=DataType.TEXT, required=False, default_value=","),
+            NodeParameter(name="chunk_size", data_type=DataType.NUMBER, required=False, default_value=1000)
         ]
     
     async def _execute_logic(self, context: ExecutionContext) -> Dict[str, Any]:
@@ -115,12 +115,12 @@ class DataTransformerNode(BaseNode):
         return [NodePort(name="transformed", data_type=DataType.TEXT)]
     
     @property
-    def parameters(self) -> List[NodeParameter]:
+    def parameters_schema(self) -> List[NodeParameter]:
         return [
             NodeParameter(name="operation", data_type=DataType.TEXT, required=True,
-                         default="uppercase", description="uppercase, lowercase, trim, replace"),
-            NodeParameter(name="find_text", data_type=DataType.TEXT, required=False, default=""),
-            NodeParameter(name="replace_text", data_type=DataType.TEXT, required=False, default="")
+                         default_value="uppercase", description="uppercase, lowercase, trim, replace"),
+            NodeParameter(name="find_text", data_type=DataType.TEXT, required=False, default_value=""),
+            NodeParameter(name="replace_text", data_type=DataType.TEXT, required=False, default_value="")
         ]
     
     async def _execute_logic(self, context: ExecutionContext) -> Dict[str, Any]:

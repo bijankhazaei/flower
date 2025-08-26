@@ -19,6 +19,7 @@ class DataType(Enum):
     BOOLEAN = "boolean"
     JSON = "json"
     FILE = "file"
+    LIST = "list"
     ANY = "any"
 
 

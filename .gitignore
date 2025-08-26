@@ -75,3 +75,4 @@ dmypy.json
 *.tmp
 *.temp
 frontend/node_modules
+mcp

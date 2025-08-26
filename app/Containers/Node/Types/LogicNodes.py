@@ -26,11 +26,11 @@ class ConditionalRouterNode(BaseNode):
         ]
     
     @property
-    def parameters(self) -> List[NodeParameter]:
+    def parameters_schema(self) -> List[NodeParameter]:
         return [
             NodeParameter(name="condition_type", data_type=DataType.TEXT, required=True,
-                         default="equals", description="equals, contains, greater_than, less_than"),
-            NodeParameter(name="expected_value", data_type=DataType.TEXT, required=True, default="")
+                         default_value="equals", description="equals, contains, greater_than, less_than"),
+            NodeParameter(name="expected_value", data_type=DataType.TEXT, required=True, default_value="")
         ]
     
     async def _execute_logic(self, context: ExecutionContext) -> Dict[str, Any]:
@@ -82,11 +82,11 @@ class MergeNode(BaseNode):
         return [NodePort(name="merged", data_type=DataType.TEXT)]
     
     @property
-    def parameters(self) -> List[NodeParameter]:
+    def parameters_schema(self) -> List[NodeParameter]:
         return [
-            NodeParameter(name="separator", data_type=DataType.TEXT, required=False, default=" "),
+            NodeParameter(name="separator", data_type=DataType.TEXT, required=False, default_value=" "),
             NodeParameter(name="merge_type", data_type=DataType.TEXT, required=True,
-                         default="concat", description="concat, json_array, json_object")
+                         default_value="concat", description="concat, json_array, json_object")
         ]
     
     async def _execute_logic(self, context: ExecutionContext) -> Dict[str, Any]:
@@ -129,9 +129,9 @@ class DelayNode(BaseNode):
         return [NodePort(name="output", data_type=DataType.TEXT)]
     
     @property
-    def parameters(self) -> List[NodeParameter]:
+    def parameters_schema(self) -> List[NodeParameter]:
         return [
-            NodeParameter(name="delay_seconds", data_type=DataType.INTEGER, required=True, default=1)
+            NodeParameter(name="delay_seconds", data_type=DataType.NUMBER, required=True, default_value=1)
         ]
     
     async def _execute_logic(self, context: ExecutionContext) -> Dict[str, Any]:

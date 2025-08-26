@@ -19,10 +19,10 @@ class TextInputNode(BaseNode):
         return [NodePort(name="text", data_type=DataType.TEXT)]
     
     @property
-    def parameters(self) -> List[NodeParameter]:
+    def parameters_schema(self) -> List[NodeParameter]:
         return [
-            NodeParameter(name="default_text", data_type=DataType.TEXT, required=False, default=""),
-            NodeParameter(name="placeholder", data_type=DataType.TEXT, required=False, default="Enter text...")
+            NodeParameter(name="default_text", data_type=DataType.TEXT, required=False, default_value=""),
+            NodeParameter(name="placeholder", data_type=DataType.TEXT, required=False, default_value="Enter text...")
         ]
     
     async def _execute_logic(self, context: ExecutionContext) -> Dict[str, Any]:
@@ -47,9 +47,9 @@ class FileInputNode(BaseNode):
         return [NodePort(name="content", data_type=DataType.TEXT)]
     
     @property
-    def parameters(self) -> List[NodeParameter]:
+    def parameters_schema(self) -> List[NodeParameter]:
         return [
-            NodeParameter(name="encoding", data_type=DataType.TEXT, required=False, default="utf-8")
+            NodeParameter(name="encoding", data_type=DataType.TEXT, required=False, default_value="utf-8")
         ]
     
     async def _execute_logic(self, context: ExecutionContext) -> Dict[str, Any]:
@@ -81,9 +81,9 @@ class TextOutputNode(BaseNode):
         return [NodePort(name="result", data_type=DataType.TEXT)]
     
     @property
-    def parameters(self) -> List[NodeParameter]:
+    def parameters_schema(self) -> List[NodeParameter]:
         return [
-            NodeParameter(name="output_key", data_type=DataType.TEXT, required=False, default="output")
+            NodeParameter(name="output_key", data_type=DataType.TEXT, required=False, default_value="output")
         ]
     
     async def _execute_logic(self, context: ExecutionContext) -> Dict[str, Any]:
@@ -112,10 +112,10 @@ class FileOutputNode(BaseNode):
         return [NodePort(name="success", data_type=DataType.BOOLEAN)]
     
     @property
-    def parameters(self) -> List[NodeParameter]:
+    def parameters_schema(self) -> List[NodeParameter]:
         return [
-            NodeParameter(name="encoding", data_type=DataType.TEXT, required=False, default="utf-8"),
-            NodeParameter(name="append", data_type=DataType.BOOLEAN, required=False, default=False)
+            NodeParameter(name="encoding", data_type=DataType.TEXT, required=False, default_value="utf-8"),
+            NodeParameter(name="append", data_type=DataType.BOOLEAN, required=False, default_value=False)
         ]
     
     async def _execute_logic(self, context: ExecutionContext) -> Dict[str, Any]:
