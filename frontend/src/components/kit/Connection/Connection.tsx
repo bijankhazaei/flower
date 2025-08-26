@@ -22,12 +22,30 @@ export const Connection: React.FC<ConnectionProps> = ({
   const path = `M ${sourceX} ${sourceY} C ${controlPoint1X} ${sourceY} ${controlPoint2X} ${targetY} ${targetX} ${targetY}`;
   
   return (
-    <path
-      d={path}
-      stroke="#6b7280"
-      strokeWidth="2"
-      fill="none"
-      className="pointer-events-none"
-    />
+    <g>
+      <defs>
+        <marker
+          id="arrowhead"
+          markerWidth="10"
+          markerHeight="7"
+          refX="9"
+          refY="3.5"
+          orient="auto"
+        >
+          <polygon
+            points="0 0, 10 3.5, 0 7"
+            fill="#6b7280"
+          />
+        </marker>
+      </defs>
+      <path
+        d={path}
+        stroke="#6b7280"
+        strokeWidth="2"
+        fill="none"
+        markerEnd="url(#arrowhead)"
+        className="hover:stroke-dominant-500 cursor-pointer transition-colors"
+      />
+    </g>
   );
 };

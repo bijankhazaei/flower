@@ -1,0 +1,33 @@
+/* Canvas specific styles */
+.flow-canvas {
+  background-color: #f8fafc;
+  background-image: 
+    radial-gradient(circle, #e2e8f0 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Node styles */
+.flow-node {
+  transition: all 0.2s ease;
+}
+
+.flow-node:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.flow-node.selected {
+  box-shadow: 0 0 0 2px #3b82f6;
+}
+
+/* Connection styles */
+.flow-connection {
+  stroke: #6b7280;
+  stroke-width: 2;
+  fill: none;
+}
+
+.flow-connection.selected {
+  stroke: #3b82f6;
+  stroke-width: 3;
+}

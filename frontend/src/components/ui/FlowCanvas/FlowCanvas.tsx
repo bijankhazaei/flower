@@ -1,8 +1,10 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { Resolver } from '@/modules/resolver/Resolver';
 import { useCanvasStore } from '@/store/canvasStore';
+import { useCanvasInteractions } from '@/hooks/useCanvasInteractions';
 
 export const FlowCanvas: React.FC = () => {
+  const canvasRef = useRef<HTMLDivElement>(null);
   const {
     zoom,
     pan,
@@ -12,8 +14,12 @@ export const FlowCanvas: React.FC = () => {
     mode,
     updateNode,
     selectNodes,
-    clearSelection
+    clearSelection,
+    setZoom,
+    setPan
   } = useCanvasStore();
+  
+  const { handleWheel, handlePan } = useCanvasInteractions();
   
   const handleCanvasClick = useCallback(() => {
     clearSelection();
@@ -36,7 +42,12 @@ export const FlowCanvas: React.FC = () => {
   }, [nodes, updateNode]);
   
   return (
-    <div className="relative w-full h-full">
+    <div 
+      ref={canvasRef}
+      className="relative w-full h-full"
+      onWheel={handleWheel}
+      onMouseDown={handlePan}
+    >
       <Resolver.Canvas
         zoom={zoom}
         pan={pan}
@@ -72,10 +83,20 @@ export const FlowCanvas: React.FC = () => {
         <Resolver.Button
           variant="secondary"
           size="sm"
-          onClick={() => useCanvasStore.getState().setZoom(1)}
+          onClick={() => setZoom(1)}
         >
           Reset Zoom
         </Resolver.Button>
+        <Resolver.Button
+          variant="secondary"
+          size="sm"
+          onClick={() => setPan({ x: 0, y: 0 })}
+        >
+          Center
+        </Resolver.Button>
+        <div className="text-xs text-gray-500 bg-white px-2 py-1 rounded">
+          {Math.round(zoom * 100)}%
+        </div>
       </div>
     </div>
   );

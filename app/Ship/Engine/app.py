@@ -6,7 +6,7 @@ from app.Containers.Flow.UI.API.Routes.template_routes import router as template
 from app.Containers.Node.UI.API.Routes.node_routes import router as node_router
 from app.Containers.Execution.UI.API.Routes.execution_routes import router as execution_router
 from app.Ship.Engine.database import engine
-from app.Ship.Parents.model import Base
+from app.Ship.Parents.Models.Model import Base
 from app.Ship.Engine.seeder import run_seeders
 from app.Containers.Node.Engine.NodeBootstrap import bootstrap_nodes
 
