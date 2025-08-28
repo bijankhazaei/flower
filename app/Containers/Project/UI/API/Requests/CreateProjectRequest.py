@@ -1,8 +1,10 @@
-from typing import Optional, Dict, Any
-from pydantic import BaseModel, Field
-
+from pydantic import BaseModel
+from app.Containers.Project.Models.Project import ProjectStatus
+from typing import Optional
+import uuid
 
 class CreateProjectRequest(BaseModel):
-    name: str = Field(..., min_length=1, max_length=255, description="Project name")
-    description: Optional[str] = Field(None, max_length=1000, description="Project description")
-    settings: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Project settings")
+    name: str
+    description: Optional[str] = None
+    owner_id: uuid.UUID
+    status: Optional[ProjectStatus] = ProjectStatus.ACTIVE

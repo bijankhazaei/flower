@@ -1,16 +1,11 @@
 from app.Ship.Parents.Actions.Action import Action
 from app.Containers.Project.Tasks.CreateProjectTask import CreateProjectTask
-from app.Containers.Project.UI.API.Requests.CreateProjectRequest import CreateProjectRequest
-
+from app.Containers.Project.Data.Repositories.ProjectRepository import ProjectRepository
+from app.Containers.Project.Models.Project import Project
+from sqlalchemy.orm import Session
 
 class CreateProjectAction(Action):
-    def __init__(self, create_project_task: CreateProjectTask):
-        self.create_project_task = create_project_task
-
-    def run(self, request: CreateProjectRequest, user_id: str):
-        return self.create_project_task.run(
-            name=request.name,
-            description=request.description,
-            owner_id=user_id,
-            settings=request.settings or {}
-        )
+    def run(self, project_data: dict, db: Session) -> Project:
+        project_repository = ProjectRepository(db)
+        create_project_task = CreateProjectTask(project_repository)
+        return create_project_task.run(project_data)

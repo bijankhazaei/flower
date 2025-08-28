@@ -1,29 +1,21 @@
-from sqlalchemy import Column, ForeignKey, Enum, DateTime
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Column, ForeignKey, Enum, DateTime, UUID
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql import func
+from app.Ship.Parents.Models.Model import Base
+from datetime import datetime
 import enum
-
-from app.Ship.Parents.Models.Model import Model
-
+import uuid
 
 class UserProjectRole(enum.Enum):
-    OWNER = "OWNER"
-    EDITOR = "EDITOR"
-    VIEWER = "VIEWER"
+    OWNER = "owner"
+    EDITOR = "editor"
+    VIEWER = "viewer"
 
-
-class UserProject(Model):
+class UserProject(Base):
     __tablename__ = "user_projects"
-
-    user_id = Column(UUID(as_uuid=True), ForeignKey('users.id'), primary_key=True)
-    project_id = Column(UUID(as_uuid=True), ForeignKey('projects.id'), primary_key=True)
-    role = Column(Enum(UserProjectRole), default=UserProjectRole.VIEWER, nullable=False)
-    joined_at = Column(DateTime(timezone=True), server_default=func.now())
-
-    # Relationships
-    user = relationship("User", back_populates="projects")
-    project = relationship("Project", back_populates="users")
-
-    def __repr__(self):
-        return f"<UserProject(user_id={self.user_id}, project_id={self.project_id}, role='{self.role.value}')>"
+    
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), primary_key=True)
+    project_id = Column(UUID(as_uuid=True), ForeignKey("projects.id"), primary_key=True)
+    role = Column(Enum(UserProjectRole), default=UserProjectRole.VIEWER)
+    joined_at = Column(DateTime, default=datetime.utcnow)
+    
+    # Relationships will be defined after all models are imported

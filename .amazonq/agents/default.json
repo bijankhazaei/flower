@@ -48,5 +48,6 @@
     }
   },
   "includedFiles": [],
-  "resources": []
+  "resources": [],
+  "promptHooks": []
 }
