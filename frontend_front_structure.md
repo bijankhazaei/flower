@@ -1,308 +1,344 @@
-# Dify Web Project Structure Documentation
+# Flower Frontend Structure - React + TypeScript + Vite
 
 ## Overview
-Dify is a Next.js 15 application built with TypeScript, React 19, and Tailwind CSS. It's an open-source LLM application development platform with comprehensive internationalization support.
+Flower Frontend is a modern React 18 application built with TypeScript, Vite, and Tailwind CSS. It provides a visual flow builder interface for AI workflow orchestration with real-time collaboration features.
 
 ## Tech Stack
-- **Framework**: Next.js 15.5.0 with App Router
-- **Runtime**: Node.js >=22.11.0
-- **Package Manager**: pnpm 10.15.0
-- **Language**: TypeScript 5.8.3
-- **UI**: React 19.1.1, Tailwind CSS 3.4.14
-- **State Management**: Zustand, SWR, React Query
-- **Testing**: Jest, React Testing Library
-- **Linting**: ESLint 9, Oxlint
-- **Build**: Standalone output for Docker deployment
+- **Framework**: React 18.2.0 with TypeScript 5.0+
+- **Build Tool**: Vite 4.4.0 with ESBuild
+- **Styling**: Tailwind CSS 3.3.0
+- **State Management**: Zustand 5.0.8, Jotai 2.13.1
+- **Data Fetching**: TanStack React Query 5.85.5, Axios 1.6.0
+- **UI Components**: Radix UI, Lucide React, Framer Motion
+- **Canvas**: ReactFlow 11.11.4
+- **Forms**: React Hook Form 7.62.0 with Zod validation
+- **Testing**: Vitest 3.2.4, React Testing Library
 
 ## Project Structure
 
-### Root Configuration Files
+### Root Configuration
 ```
-web/
+frontend/
 ├── package.json              # Dependencies and scripts
-├── next.config.js           # Next.js configuration
+├── vite.config.ts           # Vite configuration with proxy
 ├── tsconfig.json            # TypeScript configuration
 ├── tailwind.config.js       # Tailwind CSS configuration
-├── middleware.ts            # Next.js middleware for security
-├── eslint.config.mjs        # ESLint configuration
-├── jest.config.ts           # Jest testing configuration
+├── eslint.config.js         # ESLint configuration
+├── vitest.config.ts         # Vitest testing configuration
 ├── postcss.config.js        # PostCSS configuration
+├── .prettierrc              # Prettier formatting
 └── Dockerfile               # Docker containerization
 ```
 
-### Core Application Structure
-
-#### App Directory (Next.js App Router)
+### Source Structure
 ```
-app/
-├── (commonLayout)/          # Shared layout for main app
-│   ├── app/                 # App management pages
-│   ├── apps/                # Apps listing page
-│   ├── datasets/            # Dataset management
-│   ├── explore/             # App marketplace
-│   ├── plugins/             # Plugin management
-│   ├── tools/               # Tools management
-│   └── layout.tsx           # Common layout component
-├── (shareLayout)/           # Layout for shared/public pages
-│   ├── chat/[token]/        # Public chat interface
-│   ├── chatbot/[token]/     # Embedded chatbot
-│   ├── completion/[token]/  # Text completion interface
-│   ├── workflow/[token]/    # Public workflow interface
-│   └── layout.tsx           # Share layout component
-├── account/                 # User account management
-├── signin/                  # Authentication pages
-├── components/              # Reusable React components
-├── styles/                  # Global CSS styles
-└── layout.tsx               # Root layout
-```
-
-#### Components Architecture
-```
-components/
-├── app/                     # App-specific components
-│   ├── annotation/          # Annotation management
-│   ├── configuration/       # App configuration UI
-│   ├── log/                 # Logging interfaces
-│   └── overview/            # App overview dashboard
-├── base/                    # Reusable UI components
-│   ├── button/              # Button components
-│   ├── input/               # Input components
-│   ├── modal/               # Modal dialogs
-│   ├── chat/                # Chat interfaces
-│   ├── file-uploader/       # File upload components
-│   └── icons/               # Icon components
-├── datasets/                # Dataset-related components
-├── workflow/                # Workflow builder components
-├── plugins/                 # Plugin system components
-└── tools/                   # Tools management components
-```
-
-#### Internationalization (i18n)
-```
-i18n/
-├── en-US/                   # English translations
-├── zh-Hans/                 # Simplified Chinese
-├── zh-Hant/                 # Traditional Chinese
-├── ja-JP/                   # Japanese
-├── ko-KR/                   # Korean
-├── es-ES/                   # Spanish
-├── fr-FR/                   # French
-├── de-DE/                   # German
-├── pt-BR/                   # Portuguese (Brazil)
-├── ru-RU/                   # Russian
-├── it-IT/                   # Italian
-├── th-TH/                   # Thai
-├── vi-VN/                   # Vietnamese
-├── pl-PL/                   # Polish
-├── uk-UA/                   # Ukrainian
-├── sl-SI/                   # Slovenian
-├── ro-RO/                   # Romanian
-├── hi-IN/                   # Hindi
-└── fa-IR/                   # Persian
-```
-
-#### State Management & Services
-```
-context/                     # React Context providers
-├── app-context.tsx          # App-wide state
-├── dataset-detail.ts        # Dataset state
-├── workspace-context.tsx    # Workspace state
-└── modal-context.tsx        # Modal state management
-
-service/                     # API service layer
-├── apps.ts                  # App management APIs
-├── datasets.ts              # Dataset APIs
-├── workflow.ts              # Workflow APIs
-├── plugins.ts               # Plugin APIs
-└── knowledge/               # Knowledge base services
-
-hooks/                       # Custom React hooks
-├── use-breakpoints.ts       # Responsive design
-├── use-i18n.ts             # Internationalization
-├── use-theme.ts            # Theme management
-└── use-workflow.ts         # Workflow operations
+src/
+├── app/                     # Application-level logic
+│   └── actions.ts           # Global actions/reducers
+├── components/              # Reusable components
+│   ├── kit/                 # Design system components
+│   │   ├── Button/          # Button component variants
+│   │   ├── Canvas/          # Canvas container component
+│   │   ├── Card/            # Card layout component
+│   │   ├── Connection/      # Flow connection component
+│   │   ├── Input/           # Input field components
+│   │   ├── Modal/           # Modal dialog component
+│   │   └── Node/            # Flow node component
+│   ├── layouts/             # Layout components
+│   ├── ui/                  # Feature-specific UI components
+│   │   ├── FlowCanvas/      # Main canvas for flow editing
+│   │   ├── FlowCompiler/    # Flow compilation interface
+│   │   ├── FlowExecutor/    # Flow execution controls
+│   │   ├── FlowList/        # Flow listing component
+│   │   ├── NodePalette/     # Node selection palette
+│   │   ├── PropertyPanel/   # Node property editor
+│   │   └── Toolbar/         # Main toolbar component
+│   ├── Layout.tsx           # Main application layout
+│   └── ProtectedRoute.tsx   # Authentication wrapper
+├── configs/                 # Configuration files
+│   ├── app.config.ts        # Application configuration
+│   └── index.ts             # Config exports
+├── contexts/                # React Context providers
+│   └── AuthContext.tsx      # Authentication context
+├── contracts/               # TypeScript interfaces/types
+│   ├── api/                 # API response types
+│   │   └── index.ts
+│   ├── app/                 # Application types
+│   ├── base/                # Base/common types
+│   ├── components/          # Component prop types
+│   │   └── index.ts
+│   └── ui/                  # UI-specific types
+├── hooks/                   # Custom React hooks
+│   └── useCanvasInteractions.ts # Canvas interaction logic
+├── modules/                 # Feature modules
+│   ├── auth/                # Authentication module
+│   ├── canvas/              # Canvas functionality
+│   └── resolver/            # Module resolver
+│       └── Resolver.tsx
+├── pages/                   # Page components
+│   ├── Dashboard.tsx        # Main dashboard
+│   ├── FlowEditor.tsx       # Flow editing interface
+│   ├── Login.tsx            # Login page
+│   ├── Projects.tsx         # Project management
+│   └── Users.tsx            # User management
+├── services/                # API services
+│   ├── apiService/          # Generic API utilities
+│   │   ├── index.ts
+│   │   └── useApi.ts        # API hooks
+│   ├── canvasService/       # Canvas-specific services
+│   ├── flowService/         # Flow management services
+│   ├── nodeService/         # Node management services
+│   └── api.ts               # Main API configuration
+├── store/                   # State management
+│   └── canvasStore.ts       # Canvas state with Zustand
+├── stylesheets/             # Global styles
+├── test/                    # Testing utilities
+│   ├── setup.ts             # Test setup
+│   └── utils.tsx            # Test utilities
+├── types/                   # Global TypeScript types
+├── utilities/               # Utility functions
+│   └── helpers.ts           # Helper functions
+├── utils/                   # Additional utilities
+├── App.tsx                  # Main App component
+├── App.css                  # App-specific styles
+├── index.css                # Global styles
+└── main.tsx                 # Application entry point
 ```
 
-#### Utilities & Types
-```
-utils/                       # Utility functions
-├── format.ts               # Data formatting
-├── classnames.ts           # CSS class utilities
-├── navigation.ts           # Navigation helpers
-└── model-config.ts         # Model configuration
+## Key Architecture Patterns
 
-types/                      # TypeScript type definitions
-├── app.ts                  # App-related types
-├── workflow.ts             # Workflow types
-└── feature.ts              # Feature types
-
-models/                     # Data models
-├── app.ts                  # App models
-├── datasets.ts             # Dataset models
-└── user.ts                 # User models
+### 1. Component Kit System
+```typescript
+// Design system approach with consistent components
+components/kit/
+├── Button/
+│   ├── Button.tsx           # Main button component
+│   ├── Button.types.ts      # Button prop types
+│   └── Button.stories.tsx   # Storybook stories
 ```
 
-## Key Features Implementation
+### 2. State Management Strategy
+```typescript
+// Zustand for canvas state
+export const useCanvasStore = create<CanvasState>((set, get) => ({
+  nodes: {},
+  connections: {},
+  selection: [],
+  addNode: (node) => set((state) => ({
+    nodes: { ...state.nodes, [node.id]: node }
+  })),
+  // ... other actions
+}))
+```
 
-### 1. Multi-Layout Architecture
-- **commonLayout**: Main authenticated app interface
-- **shareLayout**: Public/embedded interfaces
-- Route groups for layout organization
+### 3. Service Layer Pattern
+```typescript
+// API services with axios
+export const projectService = {
+  getAll: () => api.get('/projects').then(res => res.data),
+  create: (data: any) => api.post('/projects', data).then(res => res.data),
+  update: (id: string, data: any) => api.put(`/projects/${id}`, data).then(res => res.data),
+}
+```
 
-### 2. Comprehensive Component System
-- **Base Components**: Reusable UI primitives
-- **Feature Components**: Domain-specific components
-- **Layout Components**: Page structure components
+### 4. Custom Hooks Pattern
+```typescript
+// Canvas interactions hook
+export const useCanvasInteractions = () => {
+  const { nodes, connections, addNode } = useCanvasStore()
+  
+  const handleNodeDrop = useCallback((nodeType: string, position: Point) => {
+    // Node drop logic
+  }, [addNode])
+  
+  return { handleNodeDrop, /* other handlers */ }
+}
+```
 
-### 3. Internationalization Support
-- 18+ language support
-- Modular translation files
-- RTL language support (Arabic, Persian)
+## Feature Implementation
 
-### 4. State Management Strategy
-- **Zustand**: Client-side state
-- **SWR**: Server state caching
-- **React Query**: Advanced server state
-- **Context API**: Component tree state
+### 1. Visual Flow Editor
+- **ReactFlow Integration**: Canvas-based flow editing
+- **Node Palette**: Drag-and-drop node creation
+- **Property Panel**: Node configuration interface
+- **Connection System**: Visual flow connections
 
-### 5. Plugin Architecture
-- Marketplace integration
-- Custom plugin development
-- Plugin authentication system
-- Version management
+### 2. Real-time Collaboration
+- **WebSocket Integration**: Live updates
+- **Conflict Resolution**: Merge strategies
+- **User Presence**: Show active users
+- **Version Control**: Flow history tracking
 
-### 6. Workflow Builder
-- Visual workflow editor
-- Node-based architecture
-- Real-time collaboration
-- Version history
+### 3. Project Management
+- **Project Hierarchy**: Organize flows by project
+- **User Permissions**: Role-based access
+- **Sharing**: Project collaboration features
+- **Templates**: Reusable flow templates
+
+### 4. Authentication System
+- **JWT Integration**: Token-based auth
+- **Protected Routes**: Route guards
+- **Role Management**: User role handling
+- **Session Management**: Auto-refresh tokens
 
 ## Development Patterns
 
-### File Naming Conventions
-- **Components**: PascalCase (e.g., `UserProfile.tsx`)
-- **Hooks**: camelCase with `use` prefix (e.g., `useWorkflow.ts`)
-- **Utilities**: camelCase (e.g., `formatDate.ts`)
-- **Types**: PascalCase (e.g., `AppConfig.ts`)
-
 ### Component Structure
 ```typescript
-// Component with props interface
+// Consistent component pattern
 interface ComponentProps {
   title: string
   onAction: () => void
+  className?: string
 }
 
-export default function Component({ title, onAction }: ComponentProps) {
+export const Component: React.FC<ComponentProps> = ({ 
+  title, 
+  onAction, 
+  className 
+}) => {
   return (
-    <div className="component-container">
-      {/* Component JSX */}
+    <div className={cn("base-styles", className)}>
+      <h2>{title}</h2>
+      <button onClick={onAction}>Action</button>
     </div>
   )
 }
 ```
 
-### API Service Pattern
+### API Integration
 ```typescript
-// Service layer with error handling
-export const apiService = {
-  async getData(id: string) {
-    const response = await fetch(`/api/data/${id}`)
-    if (!response.ok) throw new Error('Failed to fetch')
-    return response.json()
-  }
+// React Query integration
+export const useProjects = () => {
+  return useQuery({
+    queryKey: ['projects'],
+    queryFn: projectService.getAll,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  })
 }
 ```
 
-### Custom Hook Pattern
+### Form Handling
 ```typescript
-// Reusable logic extraction
-export function useFeature(config: FeatureConfig) {
-  const [state, setState] = useState(initialState)
+// React Hook Form with Zod validation
+const schema = z.object({
+  name: z.string().min(1, 'Name is required'),
+  description: z.string().optional(),
+})
+
+export const ProjectForm = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    resolver: zodResolver(schema)
+  })
   
-  useEffect(() => {
-    // Effect logic
-  }, [config])
-  
-  return { state, actions }
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      {/* Form fields */}
+    </form>
+  )
 }
 ```
 
-## Build & Deployment
+## Build & Development
 
 ### Development Scripts
 ```bash
-pnpm dev                    # Development server
-pnpm build                  # Production build
-pnpm build:docker          # Docker-optimized build
-pnpm lint                   # Code linting
-pnpm test                   # Run tests
+npm run dev                  # Development server with HMR
+npm run build               # Production build
+npm run preview             # Preview production build
+npm run lint                # ESLint checking
+npm run lint:fix            # Auto-fix linting issues
+npm run format              # Prettier formatting
+npm run type-check          # TypeScript checking
+npm run test                # Run tests with Vitest
+npm run test:ui             # Vitest UI interface
 ```
 
-### Docker Configuration
-- **Output**: Standalone for containerization
-- **Multi-stage build**: Optimized for production
-- **Static file handling**: Proper asset serving
-
-### Environment Configuration
-- **Development**: Local development setup
-- **Production**: Optimized build with CSP headers
-- **Docker**: Containerized deployment
-
-## Security Features
-
-### Content Security Policy
-- Configurable CSP headers
-- Nonce-based script execution
-- XSS protection
-
-### Authentication
-- Multi-provider SSO support
-- JWT token management
-- Role-based access control
-
-### Data Protection
-- Input validation
-- XSS prevention
-- CSRF protection
+### Vite Configuration
+```typescript
+// Optimized build configuration
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
+  build: {
+    target: 'esnext',
+    minify: 'esbuild',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          ui: ['@radix-ui/react-dialog', '@radix-ui/react-select'],
+        },
+      },
+    },
+  },
+})
+```
 
 ## Performance Optimizations
 
 ### Code Splitting
-- Route-based splitting
-- Component lazy loading
-- Dynamic imports
+- **Route-based splitting**: Lazy load pages
+- **Component splitting**: Dynamic imports
+- **Vendor chunking**: Separate vendor bundles
 
-### Caching Strategy
-- SWR for API caching
-- Static asset caching
-- Service worker integration
+### State Optimization
+- **Selective subscriptions**: Zustand selectors
+- **Memoization**: React.memo, useMemo, useCallback
+- **Virtual scrolling**: Large lists optimization
 
-### Bundle Optimization
-- Tree shaking
-- Dead code elimination
-- Asset optimization
+### Bundle Analysis
+- **Tree shaking**: Remove unused code
+- **Asset optimization**: Image and font optimization
+- **Compression**: Gzip/Brotli compression
 
 ## Testing Strategy
 
 ### Unit Testing
-- Jest configuration
-- React Testing Library
-- Component testing patterns
+```typescript
+// Component testing with React Testing Library
+describe('Button Component', () => {
+  it('renders with correct text', () => {
+    render(<Button>Click me</Button>)
+    expect(screen.getByText('Click me')).toBeInTheDocument()
+  })
+})
+```
 
 ### Integration Testing
-- API integration tests
-- Workflow testing
-- E2E test preparation
+- **API integration**: Mock API responses
+- **User workflows**: Complete user journeys
+- **Canvas interactions**: Flow editor testing
 
-## Usage with Amazon Q
+### E2E Testing
+- **Critical paths**: User authentication flow
+- **Flow creation**: Complete flow building
+- **Collaboration**: Multi-user scenarios
 
-This structure provides:
-1. **Scalable Architecture**: Modular component system
-2. **Type Safety**: Comprehensive TypeScript usage
-3. **Internationalization**: Multi-language support patterns
-4. **State Management**: Multiple state management approaches
-5. **Modern Patterns**: Latest React and Next.js features
-6. **Production Ready**: Docker deployment and security features
+## Deployment
 
-Use this structure as a reference for building similar LLM application platforms or complex React applications with Amazon Q assistance.
+### Docker Configuration
+```dockerfile
+# Multi-stage build for optimization
+FROM node:18-alpine as builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
+```
+
+### Environment Variables
+```bash
+VITE_API_URL=http://localhost:8022
+VITE_WS_URL=ws://localhost:8022
+VITE_APP_NAME=Flower
+```
+
+This structure provides a scalable, maintainable frontend architecture that supports the complex requirements of a visual flow builder while maintaining excellent developer experience and performance.
